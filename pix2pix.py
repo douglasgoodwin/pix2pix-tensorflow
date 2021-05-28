@@ -325,6 +325,9 @@ def load_examples():
 
 def create_generator(generator_inputs, generator_outputs_channels):
     layers = []
+    
+    # Memo Akten's addition, 1/2
+    generator_inputs = tf.identity(generator_inputs, name = 'generator_inputs')
 
     # encoder_1: [batch, 256, 256, in_channels] => [batch, 128, 128, ngf]
     with tf.variable_scope("encoder_1"):
@@ -387,7 +390,10 @@ def create_generator(generator_inputs, generator_outputs_channels):
         output = gen_deconv(rectified, generator_outputs_channels)
         output = tf.tanh(output)
         layers.append(output)
-
+    
+    # Memo Akten's addition, 2/2
+    layers.append(tf.identity(layers[-1], name='generator_outputs'))
+    
     return layers[-1]
 
 
