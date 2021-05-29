@@ -2,12 +2,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+# import tensorflow as tf
+# Ensure that the code runs as tf v1
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 import argparse
 import os
 import tempfile
 import subprocess
-import tensorflow as tf
 import numpy as np
 import tfimage as im
 import threading
@@ -89,7 +92,7 @@ def combine(src, src_path):
     height, width, _ = src.shape
     if height != sibling.shape[0] or width != sibling.shape[1]:
         raise Exception("differing sizes")
-    
+
     # convert both images to RGB if necessary
     if src.shape[2] == 1:
         src = im.grayscale_to_rgb(images=src)
@@ -100,7 +103,7 @@ def combine(src, src_path):
     # remove alpha channel
     if src.shape[2] == 4:
         src = src[:,:,:3]
-    
+
     if sibling.shape[2] == 4:
         sibling = sibling[:,:,:3]
 
@@ -122,13 +125,13 @@ def run_caffe(src):
         # using this requires using the docker image or assembling a bunch of dependencies
         # and then changing these hardcoded paths
         net = caffe.Net("/opt/caffe/examples/hed/deploy.prototxt", "/opt/caffe/hed_pretrained_bsds.caffemodel", caffe.TEST)
-        
+
     net.blobs["data"].reshape(1, *src.shape)
     net.blobs["data"].data[...] = src
     net.forward()
     return net.blobs["sigmoid-fuse"].data[0][0,:,:]
 
-    
+
 def edges(src):
     # based on https://github.com/phillipi/pix2pix/blob/master/scripts/edges/batch_hed.py
     # and https://github.com/phillipi/pix2pix/blob/master/scripts/edges/PostprocessHED.m
@@ -147,7 +150,7 @@ def edges(src):
 
     with tempfile.NamedTemporaryFile(suffix=".png") as png_file, tempfile.NamedTemporaryFile(suffix=".mat") as mat_file:
         scipy.io.savemat(mat_file.name, {"input": fuse})
-        
+
         octave_code = r"""
 E = 1-load(input_path).input;
 E = imresize(E, [image_width,image_width]);
@@ -247,17 +250,17 @@ def main():
         else:
             src_paths.append(src_path)
             dst_paths.append(dst_path)
-    
+
     print("skipping %d files that already exist" % skipped)
-            
+
     global total
     total = len(src_paths)
-    
+
     print("processing %d files" % total)
 
     global start
     start = time.time()
-    
+
     if a.operation == "edges":
         # use a multiprocessing pool for this operation so it can use multiple CPUs
         # create the pool before we launch processing threads
@@ -296,7 +299,7 @@ def main():
                 t = threading.Thread(target=worker, args=(coord,))
                 t.start()
                 threads.append(t)
-            
+
             try:
                 coord.join(threads)
             except KeyboardInterrupt:
