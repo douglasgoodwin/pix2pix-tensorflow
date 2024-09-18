@@ -60,8 +60,23 @@
 <div>
 	draw lines, click process, then save your files. 
 </div>
-<div id="edges2cats">
-</div>
+
+<!-- 
+<div>edges2cats</div>
+<div id="edges2cats"></div>
+ -->
+
+<div>edges2shoes</div>
+<div id="edges2shoes"></div>
+
+<!-- 
+<div>edges2handbags</div>
+<div id="edges2handbags"></div>
+
+<div>facades</div>
+<div id="facades"></div>
+ -->
+
 <div>
 	<p>
 		Written by Christopher Hesse -- February 19th, 2017 
@@ -76,16 +91,7 @@
 		The pix2pix model works by training on pairs of images such as building facade labels to building facades, and then attempts to generate the corresponding output image from any input image you give it. The idea is straight from the pix2pix paper, which is a good read. 
 	</p>
 </div>
-<!-- 
-<div>edges2shoes</div>
-<div id="edges2shoes"></div>
 
-<div>edges2handbags</div>
-<div id="edges2handbags"></div>
-
-<div>facades</div>
-<div id="facades"></div>
- -->
 <script src="deeplearn-0.3.15.js">
 </script>
 <script>
@@ -107,8 +113,8 @@
 	  }
 	
 	  create_editor({
-	    name: "edges2cats",
-	    weights_url: "/models/edges2cats_AtoB.pict",
+	    name: "edges2shoes",
+	    weights_url: "/models/edges2shoes_AtoB.pict",
 	    mode: "line",
 	    clear: "#FFFFFF",
 	    colors: {
@@ -116,65 +122,10 @@
 	      eraser: "#ffffff",
 	    },
 	    draw: "#000000",
-	    initial_input: "/edges2cats-input.png",
-	    initial_output: "/edges2cats-output.png",
-	    sheet_url: "/edges2cats-sheet.jpg",
+	    initial_input: "/edges2shoes-input.png",
+	    initial_output: "/edges2shoes-output.png",
+	    sheet_url: "/edges2shoes-sheet.jpg",
 	  })
-	
-	//   create_editor({
-	//     name: "edges2shoes",
-	//     weights_url: "/models/edges2shoes_AtoB.pict",
-	//     mode: "line",
-	//     clear: "#FFFFFF",
-	//     colors: {
-	//       line: "#000000",
-	//       eraser: "#ffffff",
-	//     },
-	//     draw: "#000000",
-	//     initial_input: "/edges2shoes-input.png",
-	//     initial_output: "/edges2shoes-output.png",
-	//     sheet_url: "/edges2shoes-sheet.jpg",
-	//   })
-	// 
-	//   create_editor({
-	//     name: "edges2handbags",
-	//     weights_url: "/models/edges2handbags_AtoB.pict",
-	//     mode: "line",
-	//     clear: "#FFFFFF",
-	//     colors: {
-	//       line: "#000000",
-	//       eraser: "#ffffff",
-	//     },
-	//     draw: "#000000",
-	//     initial_input: "/edges2handbags-input.png",
-	//     initial_output: "/edges2handbags-output.png",
-	//     sheet_url: "/edges2handbags-sheet.jpg",
-	//   })
-	// 
-	//   create_editor({
-	//     name: "facades",
-	//     weights_url: "/models/facades_BtoA.pict",
-	//     mode: "rect",
-	//     colors: {
-	//       background: "#0006d9",
-	//       wall: "#0d3dfb",
-	//       door: "#a50000",
-	//       "window": "#0075ff",
-	//       "window sill": "#68f898",
-	//       "window head": "#1dffdd",
-	//       shutter: "#eeed28",
-	//       balcony: "#b8ff38",
-	//       trim: "#ff9204",
-	//       cornice: "#ff4401",
-	//       column: "#f60001",
-	//       entrance: "#00c9ff",
-	//     },
-	//     clear: "#0d3dfb",
-	//     draw: "#0075ff",
-	//     initial_input: "/facades-input.png",
-	//     initial_output: "/facades-output.png",
-	//     sheet_url: "/facades-sheet.jpg",
-	//   })
 	
 	  window.requestAnimationFrame(frame)
 	}
